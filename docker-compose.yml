@@ -1,0 +1,9 @@
+version: '3'
+services:
+  web:
+    build: .
+    volumes:
+      - ./repos:/srv/git
+    ports:
+      - "8080:80"
+
