@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   web:
     build: .
@@ -6,4 +6,3 @@ services:
       - ./repos:/srv/git
     ports:
       - "8080:80"
-
