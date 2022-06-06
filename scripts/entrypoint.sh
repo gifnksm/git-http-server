@@ -2,11 +2,8 @@
 
 set -eux
 
-readonly GIT_PROJECT_ROOT="/srv/git"
 readonly HTTP_USER=nginx
 readonly HTTP_GROUP=nginx
-readonly GIT_USER=nginx
-readonly GIT_GROUP=nginx
 
 readonly FCGI_SOCKET=/var/run/fcgiwrap.sock
 readonly FCGI_PROGRAM=/usr/bin/fcgiwrap
@@ -20,5 +17,7 @@ env -i /usr/bin/spawn-fcgi \
   -G "${HTTP_GROUP}" \
   -- \
   "${FCGI_PROGRAM}"
+
+sudo -u nginx /usr/local/bin/repomng &
 
 exec /docker-entrypoint.sh "$@"
