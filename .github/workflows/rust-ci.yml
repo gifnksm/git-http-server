@@ -2,6 +2,10 @@ name: Rust CI
 
 on: push
 
+permissions:
+  issues: write
+  pull-requests: write
+
 jobs:
   rustfmt_check:
     runs-on: ubuntu-latest
