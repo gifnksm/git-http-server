@@ -2,10 +2,6 @@ name: Rust CI
 
 on: push
 
-permissions:
-  issues: write
-  pull-requests: write
-
 jobs:
   rustfmt_check:
     runs-on: ubuntu-latest
@@ -23,15 +19,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+      - name: Check workflow permissions
+        id: check_permissions
+        uses: scherermichael-oss/action-has-permission@1.0.6
+        with:
+          required-permission: write
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run clippy action to produce annotations
+        uses: actions-rs/clippy-check@v1
+        if: ${{ steps.check_permissions.outputs.has-permission }}
+        with:
+          # GitHub displays the clippy job and its results as separate entries
+          name: Clippy (stable) Results
+          token: ${{ secrets.GITHUB_TOKEN }}
+          args: --all-features --all-targets -- -D warnings
       - uses: actions-rs/toolchain@v1
         with:
             toolchain: stable
             components: clippy
             override: true
-      - uses: actions-rs/clippy-check@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          args: --all-features
+      - name: Run clippy manually without annotations
+        if: ${{ !steps.check_permissions.outputs.has-permission }}
+        run: cargo clippy --all-features --all-targets -- -D warnings
 
   security_audit:
     runs-on: ubuntu-latest
