@@ -1,16 +1,16 @@
 FROM rust:alpine AS builder
 WORKDIR /usr/src/
 COPY ./crates/repomng /usr/src/repomng
-RUN apk add \
+RUN apk --no-cache add \
     musl-dev \
     openssl-dev \
-    ;
-RUN RUSTFLAGS="-C target-feature=-crt-static" cargo install --path ./repomng
+    && \
+    RUSTFLAGS="-C target-feature=-crt-static" cargo install --path ./repomng
 
 FROM nginx:alpine
 
-RUN apk --no-cache --update upgrade
-RUN apk add --no-cache \
+RUN apk --no-cache --update upgrade && \
+    apk --no-cache add \
     fcgiwrap \
     highlight \
     git \
@@ -19,19 +19,17 @@ RUN apk add --no-cache \
     perl-cgi \
     spawn-fcgi \
     sudo \
-    ;
+    && \
+    adduser git -h /var/lib/git -D && \
+    adduser nginx git && \
+    git config --system http.receivepack true && \
+    git config --system http.uploadpack true && \
+    git config --system user.email "gitserver@git.com" && \
+    git config --system user.name "Git Server"
 
-RUN adduser git -h /var/lib/git -D
-RUN adduser nginx git
-
-RUN git config --system http.receivepack true
-RUN git config --system http.uploadpack true
-RUN git config --system user.email "gitserver@git.com"
-RUN git config --system user.name "Git Server"
-
-ADD ./scripts/entrypoint.sh /git-http-server-entrypoint.sh
-ADD ./etc/gitweb.conf /etc/gitweb.conf
-ADD ./etc/nginx/conf.d/* /etc/nginx/conf.d/
+COPY ./scripts/entrypoint.sh /git-http-server-entrypoint.sh
+COPY ./etc/gitweb.conf /etc/gitweb.conf
+COPY ./etc/nginx/conf.d/* /etc/nginx/conf.d/
 COPY --from=builder /usr/local/cargo/bin/repomng /usr/local/bin/repomng
 
 ENTRYPOINT ["/git-http-server-entrypoint.sh"]
