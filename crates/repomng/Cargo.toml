@@ -14,4 +14,4 @@ hyper = "0.14.20"
 serde = { version = "1.0.139", features = ["derive"] }
 tokio = { version = "1.20.0", default-features = false, features = ["macros", "rt-multi-thread"] }
 tracing = "0.1.35"
-tracing-subscriber = "0.3.14"
+tracing-subscriber = "0.3.15"
