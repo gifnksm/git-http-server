@@ -9,7 +9,7 @@ edition = "2021"
 axum = { version = "0.5.14", default-features = false, features = ["http1", "json"] }
 clap = { version = "3.2.15", features = ["derive", "env"] }
 eyre = "0.6.8"
-git2 = "0.14.4"
+git2 = "0.15.0"
 hyper = "0.14.20"
 serde = { version = "1.0.140", features = ["derive"] }
 tokio = { version = "1.20.1", default-features = false, features = ["macros", "rt-multi-thread"] }
