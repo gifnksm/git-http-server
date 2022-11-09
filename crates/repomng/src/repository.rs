@@ -64,7 +64,7 @@ impl Repository {
         let _ = git2::Repository::open(path)
             .wrap_err_with(|| format!("invalid git repository: {}", path.display()))?;
         let name = path
-            .strip_prefix(&project_root)
+            .strip_prefix(project_root)
             .wrap_err_with(|| format!("cannot strip project_root: {}", path.display()))?
             .with_extension("") // trim .git
             .to_string_lossy()
