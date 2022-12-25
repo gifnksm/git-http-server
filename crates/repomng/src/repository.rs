@@ -69,7 +69,7 @@ impl Repository {
             .with_extension("") // trim .git
             .to_string_lossy()
             .to_string();
-        let description = fs::read_to_string(&desc_path).unwrap_or_default();
+        let description = fs::read_to_string(desc_path).unwrap_or_default();
 
         Ok(Self { name, description })
     }
