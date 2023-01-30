@@ -54,7 +54,7 @@ impl IntoResponse for AppError {
         tracing::warn!("Internal server error: {report:?}");
         (
             StatusCode::INTERNAL_SERVER_ERROR,
-            format!("Internal server error: {:?}", report),
+            format!("Internal server error: {report:?}"),
         )
             .into_response()
     }
@@ -121,7 +121,7 @@ where
         Err(err) => {
             return Err((
                 StatusCode::BAD_REQUEST,
-                format!("failed to read {} body: {}", direction, err),
+                format!("failed to read {direction} body: {err}"),
             ));
         }
     };
