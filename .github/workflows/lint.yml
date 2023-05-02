@@ -1,6 +1,13 @@
 name: Lint
 
-on: push
+on:
+  push:
+    branches: [ master ]
+    # Publish semver tags as releases.
+    tags: [ 'v*.*.*' ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
 
 jobs:
   hadolint:
