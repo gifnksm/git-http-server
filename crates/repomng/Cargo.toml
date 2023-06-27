@@ -10,7 +10,7 @@ axum = { version = "0.6.18", default-features = false, features = ["http1", "jso
 clap = { version = "4.3.8", features = ["derive", "env"] }
 eyre = "0.6.8"
 git2 = "0.17.2"
-hyper = "0.14.26"
+hyper = "0.14.27"
 serde = { version = "1.0.164", features = ["derive"] }
 tokio = { version = "1.28.2", default-features = false, features = ["macros", "rt-multi-thread"] }
 tracing = "0.1.37"
