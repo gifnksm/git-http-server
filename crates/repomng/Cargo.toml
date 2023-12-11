@@ -7,7 +7,7 @@ edition = "2021"
 
 [dependencies]
 axum = { version = "0.6.20", default-features = false, features = ["http1", "json", "tokio"] }
-clap = { version = "4.4.10", features = ["derive", "env"] }
+clap = { version = "4.4.11", features = ["derive", "env"] }
 eyre = "0.6.9"
 git2 = "0.18.1"
 hyper = "0.14.27"
